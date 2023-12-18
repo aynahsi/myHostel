@@ -34,7 +34,7 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 |-- main.go
 ```
 
-## REST API Endpoints
+## REST API Endpoints ▶
 
 ##### Add a New Student
 - **Endpoint**: `/student`
@@ -58,20 +58,20 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 - **Method**: DELETE
 
 ##### Record Attendance
-- **Endpoint**: `/attendance`
+- **Endpoint**: `/attendances`
 - **Method**: POST
 
 ##### Get Attendance for a Student
-- **Endpoint**: `/attendance/{studentID}`
+- **Endpoint**: `/attendances/{studentID}`
 - **Method**: GET
 - **Description**: Retrieve all attendance records for a specific student.
 
 ##### Update an Attendance Record
-- **Endpoint**: `/attendance/{recordID}`
+- **Endpoint**: `/attendances/{recordID}`
 - **Method**: PUT
 
 ##### Delete an Attendance Record
-- **Endpoint**: `/attendance/{recordID}`
+- **Endpoint**: `/attendances/{recordID}`
 - **Method**: DELETE
 
 
@@ -88,9 +88,11 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 
 ## SQL Tables
 1. **Student Table**:
+
 ![studtable](/studentstable.png)
 
 2. **Attendance Table**:
+
 ![attable](/attendancetable.png)
 
 ## Installation and Setup 🛠
@@ -98,21 +100,23 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 
 1. Ensure you have go installed 
 
-[Go](https://golang.org/dl/) (version 1.x or higher)
+    [Go](https://golang.org/dl/) (version 1.x or higher)
 
 
 2. Clone the repository using:
 
 ````
-git clone https://github.com/yourusername/myHostel-http-api.git
+   git clone https://github.com/yourusername/myHostel-http-api.git
 ````
 
 
-3. **Install GoFr Modules**:
-```go get gofr.dev```
+3. **Install GoFr Modules**:```go get gofr.dev```
 
-4. **Install Other Dependencies**:```
-go mod tidy```
+
+
+4. **Install Other Dependencies**:```go mod tidy```
+
+
 
 5. You can run the mysql server and create a database locally using the following docker command:
 
@@ -120,11 +124,15 @@ go mod tidy```
 docker run --name gofr-mysql -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=test_db -p 3306:3306 -d mysql:8.0.30
 ``
 
+
+
 6. Access test_db database and create table students with columns id and name
 
 ``
 docker exec -it gofr-mysql mysql -uroot -proot123 test_db -e {sql code }
 ``
+
+
 
 7. GoFr reads configuration via environment variables(.env) in configuration folder.
 
@@ -134,5 +142,6 @@ docker exec -it gofr-mysql mysql -uroot -proot123 test_db -e {sql code }
 go run main.go
 ````
 This would start the server at 9000 port.
+
 
 
