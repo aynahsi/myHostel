@@ -1,19 +1,19 @@
-# myHostel HTTP API 📝💻
+# myHostel 📝💻
 
-## Overview
+## Overview 🎯
 
 myHostel HTTP API is a dynamic and efficient hostel management system developed using the GoFr framework.
 
 Gone are the days of signing attendance sheets and dealing with piles of paperwork. With our API, everything from checking attendance to managing hostel resources is just a click away.It is designed to modernize and simplify hostel administration by using the power of digital solutions.
 
-## Key Features 
+## Key Features 🔐
 
 - CRUD operations for student management.
 - Attendance tracking for students.
 - Real-time message broadcasting system using WebSockets,  keeping students and staff connected and informed.
 - Reduces reliance on paper, contributing to environmentally friendly practices.
 
-## Project Structure
+## Project Structure ⛓
 ```
 /hostel-management-system
 |-- /api
@@ -34,7 +34,7 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 |-- main.go
 ```
 
-### REST API Endpoints
+## REST API Endpoints
 
 ##### Add a New Student
 - **Endpoint**: `/student`
@@ -82,20 +82,36 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 - **Method**: WebSocket Connect
 - **Description**: Connect to the WebSocket to engage in real-time chat. Send a JSON message with `sender`, `receiver`, and `content` fields, and the message will be broadcasted to all connected clients.
 
-## Installation and Setup
+## Uml Diagram
+
+![My Image](/final.png)
+
+## SQL Tables
+1. **Student Table**:
+![studtable](/students table.png)
+
+2. **Attendance Table**:
+![attable](/attendance table.png)
+
+## Installation and Setup 🛠
 
 
-1. Ensure you have go installed [Go](https://golang.org/dl/) (version 1.x or higher)
+1. Ensure you have go installed 
+
+[Go](https://golang.org/dl/) (version 1.x or higher)
+
 
 2. Clone the repository using:
+
 ````
 git clone https://github.com/yourusername/myHostel-http-api.git
 ````
 
-3. Install GoFr Modules:
+
+3. **Install GoFr Modules**:
 ```go get gofr.dev```
 
-4. Install Other Dependencies:```
+4. **Install Other Dependencies**:```
 go mod tidy```
 
 5. You can run the mysql server and create a database locally using the following docker command:
@@ -113,7 +129,7 @@ docker exec -it gofr-mysql mysql -uroot -proot123 test_db -e {sql code }
 7. GoFr reads configuration via environment variables(.env) in configuration folder.
 
 
-8. Run the api
+8. **Run the api**
 ````
 go run main.go
 ````

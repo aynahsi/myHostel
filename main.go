@@ -76,6 +76,7 @@ func main() {
 	app.GET("/student/{studentID}", students.GetStudent)
 	app.GET("/students", students.GetAllStudents)
 	app.PUT("/student/{studentID}", students.UpdateStudent)
+	app.DELETE("/student/{studentID}", students.DeleteStudent)
 
 	app.POST("/attendances", attendances.RecordAttendance)
 	app.PUT("/attendances/{recordID}", attendances.UpdateAttendance)
