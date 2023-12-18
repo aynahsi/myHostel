@@ -5,7 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"gofr.dev/pkg/gofr"
 	"gofrproject/api/attendances"
-	"gofrproject/api/students" // Adjust the import path
+	"gofrproject/api/students"
 	"gofrproject/models"
 	"log"
 	"sync"

@@ -31,6 +31,7 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 |-- /models
 |   |-- student.go
 |   |-- attendance.go
+|   |-- message.go
 |-- main.go
 ```
 
@@ -82,18 +83,37 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 - **Method**: WebSocket Connect
 - **Description**: Connect to the WebSocket to engage in real-time chat. Send a JSON message with `sender`, `receiver`, and `content` fields, and the message will be broadcasted to all connected clients.
 
+
+
+   **Warden sending message**
+
+   ![warden](/images/warden.png)
+
+   **Student-1 receiving message**
+
+   ![student-1](/images/student-1.png)
+
+
+   **Student-2 receiving message**
+
+   ![student-2](/images/student-2.png)
+
+## Testing 
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://documenter.getpostman.com/view/21763260/2s9YknANBf)
+
 ## Uml Diagram
 
-![My Image](/final.png)
+![My Image](/images/final.png)
 
 ## SQL Tables
 1. **Student Table**:
 
-![studtable](/studentstable.png)
+![studtable](/images/studentstable.png)
 
 2. **Attendance Table**:
 
-![attable](/attendancetable.png)
+![attable](/images/attendancetable.png)
 
 ## Installation and Setup 🛠
 
@@ -106,7 +126,7 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 2. Clone the repository using:
 
 ````
-   git clone https://github.com/yourusername/myHostel-http-api.git
+   git clone https://github.com/aynashi/myHostel.git
 ````
 
 
@@ -144,4 +164,8 @@ go run main.go
 This would start the server at 9000 port.
 
 
+## References 🖨
+
+1.  [Check gofr documetation here](https://gofr.dev/)
+2.   [Check go documetation here](https://go.dev/doc) 
 
