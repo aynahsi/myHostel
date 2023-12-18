@@ -88,10 +88,10 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 
 ## SQL Tables
 1. **Student Table**:
-![studtable](/students table.png)
+![studtable](/studentstable.png)
 
 2. **Attendance Table**:
-![attable](/attendance table.png)
+![attable](/attendancetable.png)
 
 ## Installation and Setup 🛠
 
