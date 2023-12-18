@@ -91,21 +91,28 @@ Gone are the days of signing attendance sheets and dealing with piles of paperwo
 ````
 git clone https://github.com/yourusername/myHostel-http-api.git
 ````
+
 3. Install GoFr Modules:
 ```go get gofr.dev```
+
 4. Install Other Dependencies:```
 go mod tidy```
+
 5. You can run the mysql server and create a database locally using the following docker command:
-````
+
+``
 docker run --name gofr-mysql -e MYSQL_ROOT_PASSWORD=root123 -e MYSQL_DATABASE=test_db -p 3306:3306 -d mysql:8.0.30
-````
+``
 
 6. Access test_db database and create table students with columns id and name
-````
+
+``
 docker exec -it gofr-mysql mysql -uroot -proot123 test_db -e {sql code }
-````
+``
 
 7. GoFr reads configuration via environment variables(.env) in configuration folder.
+
+
 8. Run the api
 ````
 go run main.go
