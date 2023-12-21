@@ -1,64 +1,64 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gorilla/websocket"
 	"github.com/joho/godotenv"
+	"gofr.dev/pkg/errors"
 	"gofr.dev/pkg/gofr"
 	"gofrproject/api/attendances"
 	"gofrproject/api/students"
-	"gofrproject/models"
 	"log"
 	"sync"
 )
 
+type Message struct {
+	Sender  string `json:"sender"`
+	Content string `json:"content"`
+}
+
 var (
-	clients = make(map[*websocket.Conn]bool) // Connected clients
-	mu      sync.Mutex                       // Mutex to protect clients
+	clients = make(map[*websocket.Conn]bool) // Map to store clients
+	mu      sync.Mutex                       // Mutex to protect clients map
 )
 
-func handleWebSocket(ctx *gofr.Context) (interface{}, error) {
-	conn := ctx.WebSocketConnection
-	if conn == nil {
-		ctx.Logger.Error("Not a WebSocket request")
-		return nil, nil
-	}
+func checkWebSocketHeaders(c *gofr.Context) []string {
+	missingHeaders := []string{}
+	requiredHeaders := []string{"Connection", "Upgrade", "Sec-Websocket-Version", "Sec-WebSocket-Key"}
 
-	// Register new client
-	mu.Lock()
-	clients[conn] = true
-	mu.Unlock()
-
-	// Handle incoming messages
-	for {
-		var msg models.Message
-		err := conn.ReadJSON(&msg)
-		if err != nil {
-			handleDisconnect(conn)
-			break
+	for _, key := range requiredHeaders {
+		if c.Header(key) == "" {
+			missingHeaders = append(missingHeaders, key)
 		}
-
-		broadcastMessage(msg, conn)
 	}
 
-	return nil, nil
+	return missingHeaders
 }
 
 func handleDisconnect(conn *websocket.Conn) {
 	mu.Lock()
 	delete(clients, conn)
 	mu.Unlock()
-	conn.Close()
+	err := conn.Close()
+	if err != nil {
+		return
+	}
 }
 
-func broadcastMessage(msg models.Message, sender *websocket.Conn) {
+func broadcastMessage(message Message, sender *websocket.Conn) {
 	mu.Lock()
 	defer mu.Unlock()
+
+	messageJSON, err := json.Marshal(message)
+	if err != nil {
+		log.Printf("Error marshaling message: %v", err)
+		return
+	}
+
 	for client := range clients {
 		if client != sender {
-			err := client.WriteJSON(msg)
-			if err != nil {
-				client.Close()
-				delete(clients, client)
+			if err := client.WriteMessage(websocket.TextMessage, messageJSON); err != nil {
+				handleDisconnect(client)
 			}
 		}
 	}
@@ -82,7 +82,35 @@ func main() {
 	app.PUT("/attendances/{recordID}", attendances.UpdateAttendance)
 	app.DELETE("/attendances/{recordID}", attendances.DeleteAttendance)
 	app.GET("/attendances/{studentID}", attendances.GetAttendance)
-	app.GET("/websocket", handleWebSocket)
+
+	app.GET("/websocket", func(c *gofr.Context) (interface{}, error) {
+		conn := c.WebSocketConnection
+		if conn != nil {
+			mu.Lock()
+			clients[conn] = true
+			mu.Unlock()
+
+			for {
+				_, data, err := conn.ReadMessage()
+				if err != nil {
+					handleDisconnect(conn)
+					break
+				}
+
+				var msg Message
+				if err := json.Unmarshal(data, &msg); err != nil {
+					log.Printf("Error unmarshaling message: %v", err)
+					continue
+				}
+
+				broadcastMessage(msg, conn)
+			}
+		} else {
+			return nil, errors.MissingParam{Param: checkWebSocketHeaders(c)}
+		}
+
+		return nil, nil
+	})
 
 	app.Start()
 }
